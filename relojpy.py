@@ -54,7 +54,7 @@ class Segmento(pygame.Surface):
 class Puntos(pygame.Surface):
     """Puntos de separacion entre horas y minutos y entre minutos y segundos"""
 
-    def __init__(self, pos, r=5, e=20, a=122):
+    def __init__(self, pos, r=10, e=50, a=122):
         '''pos es la posicion, r el radio, e es la separacion entre los puntos, a es la altura del caracter'''
         self.pos = pos
         self.r = r
@@ -171,8 +171,8 @@ class Reloj(pygame.Surface):
         #ancho de los caracteres: l+a+2*e ==> 50+10+2*3 = 66 ==> uso 70
         self.pos = pos
         self.ancho = 66
-        self.dosPuntos = 10
-        self.esp = 5
+        self.dosPuntos = 20
+        self.esp = 10
         self.fondo = pygame.Color(0,0,0,0)  # Transparente por defecto
         self.h1 = Caracter((0,0))
         self.h2 = Caracter((self.ancho + self.esp,0))
