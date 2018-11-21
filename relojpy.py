@@ -13,6 +13,11 @@ def eventos():
         if evento.type == QUIT:
             apagar()
 
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_ESCAPE:
+                apagar()
+
+
 class Segmento(pygame.Surface):
     """Segmento para formar el caracter"""
     def __init__(self, rect):
@@ -216,15 +221,22 @@ class Reloj(pygame.Surface):
 #        print valor
 def main(args):
 
+    #print args
+
+
+
     pygame.init()
 #r = pygame.Rect((70,70),(170,150))
 
     negro = pygame.Color(0,0,0)
     reloj = Reloj((0,0))
-    ventana = pygame.display.set_mode(reloj.get_size())
-    
+    ventana = pygame.display.set_mode(reloj.get_size(), pygame.NOFRAME)
+    isRunning = True
 
-    while True:
+    while isRunning:
+
+    	
+        
         ventana.fill(negro)
 
 #        hora = time.strftime('%H:%M:%S')
