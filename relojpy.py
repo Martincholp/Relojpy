@@ -1,8 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-import pygame, sys, time
+import pygame, sys, time, os
 from pygame.locals import *
+
+
+
 
 def apagar():
     pygame.quit()
@@ -223,23 +226,38 @@ def main(args):
 
     #print args
 
+    # Posicion de la ventana (opcion '-p' en la linea de comandos, con parametros X e Y)
+    if '-p' in args:
+    	Indice_p = args.index('-p')
+        posVentanaX = int(args[Indice_p + 1])
+        posVentanaY = int(args[Indice_p + 2])
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (posVentanaX, posVentanaY)
 
 
     pygame.init()
-#r = pygame.Rect((70,70),(170,150))
-
+    
     negro = pygame.Color(0,0,0)
     reloj = Reloj((0,0))
 
     # Icono y titulo
     ruta_icono = "imagenes/icon-003.png"
     titulo = "Relojpy"
+
+    if '-i' in args:  # Cargo el icono indicado en la linea de comandos. Si no se indica ninguno se utiliza el que esta por defecto
+    	Indice_i = args.index('-i')
+    	ruta_icono = "imagenes/icon-" + args[Indice_i + 1] + ".png"
+
     icono = pygame.image.load(ruta_icono)
     pygame.display.set_icon(icono)
     pygame.display.set_caption(titulo, ruta_icono)
     del icono
     
-    ventana = pygame.display.set_mode(reloj.get_size()) #, pygame.NOFRAME)
+    # Creacion de la ventana del reloj. Verifico si existe 'NOFRAME' entre las opciones de la linea de comandos
+    if 'NOFRAME' in args:
+        ventana = pygame.display.set_mode(reloj.get_size(), pygame.NOFRAME)
+    else:
+        ventana = pygame.display.set_mode(reloj.get_size())
+    
     isRunning = True
 
     while isRunning:
@@ -259,5 +277,6 @@ def main(args):
 
 
 if __name__ == '__main__':
+    #print sys.argv, "en main"
     sys.exit(main(sys.argv))
 
