@@ -230,7 +230,16 @@ def main(args):
 
     negro = pygame.Color(0,0,0)
     reloj = Reloj((0,0))
-    ventana = pygame.display.set_mode(reloj.get_size(), pygame.NOFRAME)
+
+    # Icono y titulo
+    ruta_icono = "imagenes/icon-003.png"
+    titulo = "Relojpy"
+    icono = pygame.image.load(ruta_icono)
+    pygame.display.set_icon(icono)
+    pygame.display.set_caption(titulo, ruta_icono)
+    del icono
+    
+    ventana = pygame.display.set_mode(reloj.get_size()) #, pygame.NOFRAME)
     isRunning = True
 
     while isRunning:
