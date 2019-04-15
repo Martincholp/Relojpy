@@ -1,1 +1,4 @@
 # Archivos para ignorar
+
+# Archivo de python sin consola para windows
+*.pyw
