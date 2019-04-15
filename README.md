@@ -4,7 +4,7 @@ Reloj digital de 7 segmentos, en python para escritorio
 Este es un sencillo reloj, a modo de display de 7 segmentos escrito en python y 
 que hace uso de la librería gráfica pygame.
 También puede importarse el paquete pudiendo utilizar el display en un proyecto 
-distinto.
+distinto. (Aun no implementado)
 Para salir de la aplicación se puede utilizar la X en la esquina de la ventana o
 la tecla ESC.
 
