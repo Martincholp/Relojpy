@@ -1,11 +1,10 @@
 # Relojpy
-  -------
 Reloj digital de 7 segmentos, en python para escritorio 
 
 Este es un sencillo reloj, a modo de display de 7 segmentos escrito en python y 
 que hace uso de la librería gráfica pygame.
 También puede importarse el paquete pudiendo utilizar el display en un proyecto 
-distinto. (Aun no implementado)
+distinto.
 Para salir de la aplicación se puede utilizar la X en la esquina de la ventana o
 la tecla ESC.
 
@@ -27,12 +26,12 @@ Opciones de línea de comando
                             podra mover.
   
 
--f color   -------------->  Se puede establecer el color del fondo con el nombre
-                            del mismo, con formato HTML (un string de tipo 
-                            '#rrggbb' donde los valores rr, gg y bb son 
-                            hexadecimales), formato hexadecimal (similar al HTML,
-                            pero no es necesario un string y la sintaxis es de 
-                            tipo 0xrrggbb), o un valor entero que defina un color.
+-f color   -------------->  Se puede establecer el color con el nombre del 
+                            mismo, con formato HTML (un string de tipo '#rrggbb'
+                            donde los valores rr, gg y bb son hexadecimales), 
+                            formato hexadecimal (similar al HTML, pero no es 
+                            necesario un string y la sintaxis es de tipo 
+                            0xrrggbb), o un valor entero que defina un color.
 
                             Ejemplo: Distintas formas de establecer el fondo 
                             azul.
