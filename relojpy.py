@@ -24,24 +24,29 @@ def eventos():
 class Segmento(pygame.Surface):
     """Segmento para formar el caracter"""
     def __init__(self, rect):
-        self.pos = (rect[0], rect[1])
+        self.pos = (int(rect[0]), int(rect[1]))
 
         # verifico cual es el ancho y cual el largo
         if rect[2] < rect[3]:
             self.orientacion = "V"
             self.largo = rect[3]
             self.ancho = rect[2]
-            self.ptos = [(0              ,self.ancho/2),
-                         (self.ancho/2   ,0),
-                         (self.ancho     ,self.ancho/2),
-                         (self.ancho     ,self.largo-self.ancho/2),
-                         (self.ancho/2   ,self.largo),
-                         (0              ,self.largo-self.ancho/2)]
+            self.ptos = [(0                   ,int(self.ancho/2)),
+                         (int(self.ancho/2)   ,0),
+                         (self.ancho          ,int(self.ancho/2)),
+                         (self.ancho          ,int(self.largo-self.ancho/2)),
+                         (int(self.ancho/2)   ,self.largo),
+                         (0                   ,int(self.largo-self.ancho/2))]
         else:
             self.orientacion = "H"
             self.largo = rect[2]
             self.ancho = rect[3]
-            self.ptos = [(0 ,self.ancho/2),(self.ancho/2 ,0),(self.largo-self.ancho/2 ,0),(self.largo ,self.ancho/2),(self.largo-self.ancho/2 ,self.ancho),(self.ancho/2,self.ancho)]
+            self.ptos = [(0                            ,int(self.ancho/2)),
+                         (int(self.ancho/2)            ,0),
+                         (int(self.largo-self.ancho/2) ,0),
+                         (self.largo                   ,int(self.ancho/2)),
+                         (int(self.largo-self.ancho/2) ,self.ancho),
+                         (int(self.ancho/2)            ,self.ancho)]
 
         self.borde = 0  # Con 0 hago un segmento relleno
         self.color = pygame.Color(255,255,255)  # Blanco por defecto
@@ -52,8 +57,9 @@ class Segmento(pygame.Surface):
 
     def update(self):
         self.fill(self.fondo)
-        pygame.draw.polygon(self, self.color, self.ptos, self.borde)
 
+        pygame.draw.polygon(self, self.color, self.ptos, self.borde)
+       
     def render(self, sup):
         if self.visible:
             sup.blit(self, self.pos)
@@ -76,8 +82,8 @@ class Puntos(pygame.Surface):
 
     def update(self ):
         self.fill(self.fondo)
-        pygame.draw.circle(self, self.color, (self.r,self.a/2-self.e/2), self.r, 0)
-        pygame.draw.circle(self, self.color, (self.r,self.a/2+self.e/2), self.r, 0)
+        pygame.draw.circle(self, self.color, (self.r, int(self.a/2-self.e/2)), self.r)
+        pygame.draw.circle(self, self.color, (self.r, int(self.a/2+self.e/2)), self.r)
 
     def render(self, val, sup):
         if self.visible:
@@ -237,7 +243,7 @@ def main(args):
     # y la ventana se dibuja en un lugar no deseado no se podra mover.
 
     if '-p' in args:
-    	Indice_p = args.index('-p')
+        Indice_p = args.index('-p')
         posVentanaX = int(args[Indice_p + 1])
         posVentanaY = int(args[Indice_p + 2])
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (posVentanaX, posVentanaY)
@@ -258,15 +264,15 @@ def main(args):
     #
 
     if '-f' in args:
-    	Indice_f = args.index('-f')
-    	valParam = args[Indice_f + 1]
-    	if valParam.isdigit():
-    		fondo = pygame.Color(int(valParam))
-    	else:
-    		fondo = pygame.Color(valParam)
+        Indice_f = args.index('-f')
+        valParam = args[Indice_f + 1]
+        if valParam.isdigit():
+            fondo = pygame.Color(int(valParam))
+        else:
+            fondo = pygame.Color(valParam)
 
     else:
-    	fondo = pygame.Color(0)
+        fondo = pygame.Color(0)
 
 
 
@@ -287,11 +293,13 @@ def main(args):
     # Para modificar el icono que se ubica junto a la barra de titulo ver la opcion '-t'
     #
 
-    ruta_icono = "imagenes/icon-003.png"
+    rutaRelojpy = "/".join(args[0].split("/")[:-1]) + "/"
+    ruta_icono = rutaRelojpy + "imagenes/icon-003.png"
+
 
     if '-i' in args:
-    	Indice_i = args.index('-i')
-    	ruta_icono = "imagenes/icon-" + args[Indice_i + 1] + ".png"
+        Indice_i = args.index('-i')
+        ruta_icono = rutaRelojpy + "imagenes/icon-" + args[Indice_i + 1] + ".png"
 
     icono = pygame.image.load(ruta_icono)
     pygame.display.set_icon(icono)
@@ -315,13 +323,13 @@ def main(args):
     #
     titulo = "Relojpy"
     if '-t' in args:
-    	Indice_t = args.index('-t')
-    	titulo = args[Indice_t + 1]
-    	if (Indice_t + 2) <= (len(args) - 1):
-    		if args[Indice_t + 2].isdigit():
-    			ruta_icono = "imagenes/icon-" + args[Indice_t + 2] + ".png"
+        Indice_t = args.index('-t')
+        titulo = args[Indice_t + 1]
+        if (Indice_t + 2) <= (len(args) - 1):
+            if args[Indice_t + 2].isdigit():
+                ruta_icono = rutaRelojpy + "imagenes/icon-" + args[Indice_t + 2] + ".png"
 
-    		
+            
     pygame.display.set_caption(titulo, ruta_icono)
     
 
@@ -340,94 +348,94 @@ def main(args):
     # las opciones disponibles y su uso.
     #
     if '-h' in args:
-    	print "Relojpy"
-    	print "-------"
-    	print ""
-    	print "Reloj digital con display de 7 segmentos"
-    	print ""
-    	print "Opciones de la linea de comandos:"
-    	print ""
-    	print "  -p X Y   ---------------->   Se establece la posicion de la ventana indicando la distancia en"
-    	print "                               pixeles del borde izquierdo y del borde superior de la pantalla."
-    	print ""
-        print "                               Ejemplo: Establecer la posicion a 100 pixeles de distancia horizontal"
-        print "                               y 150 pixeles del borde superior"
-    	print ""  
-        print "                                   python relojpy.py -p 100 150"
-    	print ""
-        print "                               Si se omite, el sistema decidira donde dibujar la ventana. Tener en"
-        print "                               cuenta que si se establece NOFRAME y la ventana se dibuja en un lugar"
-        print "                               no deseado no se podra mover."
-    	print ""
-    	print ""
-    	print "  -f color   -------------->   Se puede establecer el color con el nombre, formato HTML (un string"
-    	print "                               de tipo '#rrggbb', donde los valores rr, gg y bb hexadecimales), "
-    	print "                               formato hexadecimal (similar al HTML, pero el string es de tipo"
-    	print "                               '0xrrggbbaa'), o un valor entero que defina un color."
-        print ""
-        print "                               Ejemplo: Distintas formas de establecer el fondo azul."
-        print ""
-        print "                                   python relojpy.py -f blue"
-        print '                                   python relojpy.py -f "#0000ff"'
-        print "                                   python relojpy.py -f 0x0000ff"
-        print "                                   python relojpy.py -f 324567"
-        print ""
-        print "                               Si se omite el parametro '-f' se stablece el color negro como color"
-        print "                               predeterminado."
-        print ""
-        print ""
-    	print "  -i numIcono   ----------->   Establece el icono que se utilizara el sistema para representar la"
-    	print "                               ventana. Los iconos disponibles se encuentran en la carpeta"
-    	print "                               imagenes, y son archivos de tipo .png con un tamano de 32x32 y"
-    	print "                               cuyo nombre es de la forma 'icon-###.png', donde ### representan"
-    	print "                               un numero de icono. Este numero es el que se debe indicar en el"
-    	print "                               parametro para seleccionarlo. Se puede utilizar cualquier imagen"
-    	print "                               con estas caracteristicas, respetando el formato del nombre de"
-    	print "                               archivo. Si las imagenes tienen un tamano distinto al indicado no"
-    	print "                               se garantiza la correcta visualizacion del icono."
-        print ""
-    	print "                               Ejemplo: Seleccion del icono numero 16 (el nombre de archivo es "
-    	print '                               "icon-016.png")'
-        print ""
-    	print "                                   python relojpy.py -i 016"
-        print ""
-    	print "                               Si se omite la opcion '-i' se establece el icono 003 como"
-    	print "                               predeterminado. Para modificar el icono que se ubica junto a la"
-    	print "                               barra de titulo ver la opcion '-t'."
-        print ""
-        print ""
-    	print '  -t "Tiulo" [numIcono]  --->  Los iconos disponibles son los mismos que los indicados '
-    	print "                               para la opcion '-i' y se encuentran en la carpeta imagenes."
-    	print "                               Si se desea que el icono de la barra de titulo sea el mismo"
-    	print "                               que el usado por el sistema para representar la ventana se"
-    	print "                               omite el segundo parametro.  Algunos sistemas no soportan"
-    	print "                               un icono distinto en la barra de titulo, en este caso se "
-    	print "                               ignora el segundo parametro."
-        print ""
-        print "                               Ejemplo 1: Personalizacion del titulo y seleccion del icono"
-        print "                               numero 16."
-        print ""
-        print '                                   python relojpy.py -t "Titulo del reloj" 016'
-        print ""
-        print "                               Ejemplo 2: Personalizacion solo del titulo. El icono es"
-        print "                               el mismo que el que identifica a la ventana."
-        print ""
-        print '                                   python relojpy.py -t "Titulo del reloj"'
-        print ""
-        print "                               Si se omite la opcion '-t' se establece el titulo "
-        print '                               "Relojpy" y el icono es el mismo del de la ventana.'
-        print ""
-        print ""
-    	print "  -h   -------------------->   Muestra esta ayuda"
-    	print ""
-    	print ""
-    	print "  NOFRAME   --------------->   Si se encuentra la opcion 'NOFRAME' la ventana se dibujara "
-    	print "                               sin el marco. Para cerrar la ventana en este caso se debe "
-    	print "                               presionar Esc cuando la ventana tiene el foco del teclado."
-    	print "                               Por defecto se dibuja con marco."
-        print ""
+        print("Relojpy")
+        print ("-------")
+        print("")
+        print("Reloj digital con display de 7 segmentos")
+        print("")
+        print("Opciones de la linea de comandos:")
+        print("")
+        print("  -p X Y   ---------------->   Se establece la posicion de la ventana indicando la distancia en")
+        print("                               pixeles del borde izquierdo y del borde superior de la pantalla.")
+        print("")
+        print("                               Ejemplo: Establecer la posicion a 100 pixeles de distancia horizontal")
+        print("                               y 150 pixeles del borde superior")
+        print(""  )
+        print("                                   python relojpy.py -p 100 150")
+        print("")
+        print("                               Si se omite, el sistema decidira donde dibujar la ventana. Tener en")
+        print("                               cuenta que si se establece NOFRAME y la ventana se dibuja en un lugar")
+        print("                               no deseado no se podra mover.")
+        print("")
+        print("")
+        print("  -f color   -------------->   Se puede establecer el color con el nombre, formato HTML (un string")
+        print("                               de tipo '#rrggbb', donde los valores rr, gg y bb hexadecimales), ")
+        print("                               formato hexadecimal (similar al HTML, pero el string es de tipo")
+        print("                               '0xrrggbbaa'), o un valor entero que defina un color.")
+        print("")
+        print("                               Ejemplo: Distintas formas de establecer el fondo azul.")
+        print("")
+        print("                                   python relojpy.py -f blue")
+        print('                                   python relojpy.py -f "#0000ff"')
+        print("                                   python relojpy.py -f 0x0000ff")
+        print("                                   python relojpy.py -f 324567")
+        print("")
+        print("                               Si se omite el parametro '-f' se stablece el color negro como color")
+        print("                               predeterminado.")
+        print("")
+        print("")
+        print("  -i numIcono   ----------->   Establece el icono que se utilizara el sistema para representar la")
+        print("                               ventana. Los iconos disponibles se encuentran en la carpeta")
+        print("                               imagenes, y son archivos de tipo .png con un tamano de 32x32 y")
+        print("                               cuyo nombre es de la forma 'icon-###.png', donde ### representan")
+        print("                               un numero de icono. Este numero es el que se debe indicar en el")
+        print("                               parametro para seleccionarlo. Se puede utilizar cualquier imagen")
+        print("                               con estas caracteristicas, respetando el formato del nombre de")
+        print("                               archivo. Si las imagenes tienen un tamano distinto al indicado no")
+        print("                               se garantiza la correcta visualizacion del icono.")
+        print("")
+        print("                               Ejemplo: Seleccion del icono numero 16 (el nombre de archivo es ")
+        print('                               "icon-016.png")')
+        print("")
+        print("                                   python relojpy.py -i 016")
+        print("")
+        print("                               Si se omite la opcion '-i' se establece el icono 003 como")
+        print("                               predeterminado. Para modificar el icono que se ubica junto a la")
+        print("                               barra de titulo ver la opcion '-t'.")
+        print("")
+        print("")
+        print('  -t "Tiulo" [numIcono]  --->  Los iconos disponibles son los mismos que los indicados ')
+        print("                               para la opcion '-i' y se encuentran en la carpeta imagenes.")
+        print("                               Si se desea que el icono de la barra de titulo sea el mismo")
+        print("                               que el usado por el sistema para representar la ventana se")
+        print("                               omite el segundo parametro.  Algunos sistemas no soportan")
+        print("                               un icono distinto en la barra de titulo, en este caso se ")
+        print("                               ignora el segundo parametro.")
+        print("")
+        print("                               Ejemplo 1: Personalizacion del titulo y seleccion del icono")
+        print("                               numero 16.")
+        print("")
+        print('                                   python relojpy.py -t "Titulo del reloj" 016')
+        print("")
+        print("                               Ejemplo 2: Personalizacion solo del titulo. El icono es")
+        print("                               el mismo que el que identifica a la ventana.")
+        print("")
+        print('                                   python relojpy.py -t "Titulo del reloj"')
+        print("")
+        print("                               Si se omite la opcion '-t' se establece el titulo ")
+        print('                               "Relojpy" y el icono es el mismo del de la ventana.')
+        print("")
+        print("")
+        print("  -h   -------------------->   Muestra esta ayuda")
+        print("")
+        print("")
+        print("  NOFRAME   --------------->   Si se encuentra la opcion 'NOFRAME' la ventana se dibujara ")
+        print("                               sin el marco. Para cerrar la ventana en este caso se debe ")
+        print("                               presionar Esc cuando la ventana tiene el foco del teclado.")
+        print("                               Por defecto se dibuja con marco.")
+        print("")
 
-    	return 0
+        return 0
 
 
 
@@ -436,7 +444,7 @@ def main(args):
 
     while isRunning:
 
-    	
+        
         
         ventana.fill(fondo)
 
@@ -452,5 +460,8 @@ def main(args):
 
 if __name__ == '__main__':
     #print sys.argv, "en main"
+    for argumento in sys.argv:
+        print argumento
+
     sys.exit(main(sys.argv))
 

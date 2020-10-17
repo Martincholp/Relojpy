@@ -2,3 +2,10 @@
 
 # Archivo de python sin consola para windows
 *.pyw
+
+# Archivos de codigo compilado
+*.pyc
+
+# Archivos especificos que no quiero subir al repositorio
+ejemplo_cliente_ntp.py
+ntplib.py
